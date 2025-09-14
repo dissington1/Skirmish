@@ -1,7 +1,7 @@
-setup() {
+function setup() {
 
 }
 
-draw() {
+function draw() {
     
 }
