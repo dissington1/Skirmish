@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@types/p5": "^1.7.6",
+    "eslint-plugin-p5js": "^1.0.0",
+    "globals": "^16.4.0"
+  }
+}
