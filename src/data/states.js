@@ -1,0 +1,17 @@
+let cam = {
+  x: 0,
+  y: 0,
+  zoom: 1,
+  moveSpeed: 10,
+  zoomSpeed: 0.001,
+  minZoom: 0.3,
+  maxZoom: 3
+};
+
+let users = ["Player 1"];
+let user = 0; // Current player
+
+let board = []; // Array of tiles
+let selectedTile = null;
+
+let landTiles = [];

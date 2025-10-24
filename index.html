@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/addons/p5.sound.min.js"></script>
-        
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <meta charset="utf-8" />
-    </head>
-    <body>
-        <script src="main.js" defef></script>
-    </body>
+
+<head>
+  <title>Skirmish</title>
+
+  <!-- p5 -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/addons/p5.sound.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <!-- Util -->
+  <script src="src/util/customShapes.js"></script>
+
+  <!-- Data -->
+  <script src="src/data/consts.js"></script>
+  <script src="src/data/states.js"></script>
+
+  <!-- Classes -->
+  <script src="src/classes/Tile.js"></script>
+
+  <!-- Render -->
+  <script src="src/render/camera.js"></script>
+  <script src="src/render/tiles.js"></script>
+  <script src="src/render/ui.js"></script>
+
+  <!-- Core -->
+  <script src="src/core/board.js"></script>
+  <script src="src/core/controls.js"></script>
+
+  <!-- Main -->
+  <script src="src/main.js"></script>
+</body>
+
 </html>
