@@ -1,7 +1,7 @@
 let cam = {
   x: 0,
   y: 0,
-  zoom: 1,
+  zoom: 0.3,
   moveSpeed: 10,
   zoomSpeed: 0.001,
   minZoom: 0.3,
