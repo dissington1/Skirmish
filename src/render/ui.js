@@ -1,11 +1,11 @@
 function initUI() {
-  initTileGui();
+  inittileHud();
 }
 
 function drawUI() {
   if (selectedTile) {
-    tileGui.pane.hidden = false;
-    updateTileGui(selectedTile);
+    tileHud.pane.hidden = false;
+    updatetileHud(selectedTile);
     highlightTile(selectedTile);
   }
 }

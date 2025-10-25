@@ -1,4 +1,4 @@
-let tileGui = {
+let tileHud = {
     pane: null,
     folders: {
         general: null,
@@ -12,23 +12,23 @@ let tileGui = {
     }
 }
 
-function initTileGui() {
-    tileGui.pane = new Tweakpane.Pane();
+function inittileHud() {
+    tileHud.pane = new Tweakpane.Pane();
 
     // General
-    tileGui.folders.general = tileGui.pane.addFolder({
+    tileHud.folders.general = tileHud.pane.addFolder({
         title: 'General',
         expanded: true,
     });
 
-    tileGui.blades.occupant = tileGui.folders.general.addBlade({
+    tileHud.blades.occupant = tileHud.folders.general.addBlade({
         view: 'text',
         label: 'Occupant',
         parse: (v) => String(v),
         value: null,
     });
 
-    tileGui.blades.terrain = tileGui.folders.general.addBlade({
+    tileHud.blades.terrain = tileHud.folders.general.addBlade({
         view: 'text',
         label: 'Terrain',
         parse: (v) => String(v),
@@ -36,19 +36,19 @@ function initTileGui() {
     });
 
     // Stats
-    tileGui.folders.stats = tileGui.pane.addFolder({
+    tileHud.folders.stats = tileHud.pane.addFolder({
         title: 'Stats',
         expanded: true,
     });
 
-    tileGui.blades.att = tileGui.folders.stats.addBlade({
+    tileHud.blades.att = tileHud.folders.stats.addBlade({
         view: 'text',
         label: 'Att',
         parse: (v) => String(v),
         value: null,
     });
 
-    tileGui.blades.def = tileGui.folders.stats.addBlade({
+    tileHud.blades.def = tileHud.folders.stats.addBlade({
         view: 'text',
         label: 'Def',
         parse: (v) => String(v),
@@ -56,7 +56,7 @@ function initTileGui() {
     });
 }
 
-function updateTileGui(tile) {
+function updatetileHud(tile) {
     let occupant
     let terrain;
 
@@ -64,8 +64,8 @@ function updateTileGui(tile) {
 
     terrain = getTerrainStr(tile.type);
 
-    tileGui.blades.occupant.value = occupant
-    tileGui.blades.terrain.value = terrain;
-    tileGui.blades.att.value = tile.att;
-    tileGui.blades.def.value = tile.def; 
+    tileHud.blades.occupant.value = occupant
+    tileHud.blades.terrain.value = terrain;
+    tileHud.blades.att.value = tile.att;
+    tileHud.blades.def.value = tile.def; 
 }
