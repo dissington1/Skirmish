@@ -3,10 +3,9 @@ function drawTile(tile) {
 
   // Init walls
   if (tile.walls[0] == null) {
-    console.log(tile.id);
     for (let i = 0; i < 6; i++) {
       let direction;
-      let pos = {a: 0, b: 0};
+      let pos = { a: 0, b: 0 };
 
       let a = i;
       let b = a == 5 ? 0 : a + 1; // Loop around if at end

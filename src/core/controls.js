@@ -32,39 +32,7 @@ function mouseClicked() {
   let worldX = (mouseX - width / 2) / cam.zoom + cam.x;
   let worldY = (mouseY - height / 2) / cam.zoom + cam.y;
 
-  for (let tile of board) {
-    let d = dist(worldX, worldY, tile.x, tile.y);
-    if (d < TILE_SIZE) {
-      selectedTile = tile;
+  selectedTile = findTileByWorldPos(worldX, worldY);
 
-      // Debug logs
-      console.log("Tile:", selectedTile.id);
-      console.log("Neighbours:");
-      for (let i = 0; i < 6; i++) {
-        switch (i) {
-          case 0:
-            console.log("  TT:", selectedTile.neighbours[i].id + 1)
-            break;
-          case 1:
-            console.log("  TL:", selectedTile.neighbours[i].id + 1)
-            break;
-          case 2:
-            console.log("  TR:", selectedTile.neighbours[i].id + 1)
-            break;
-          case 3:
-            console.log("  BL:", selectedTile.neighbours[i].id + 1)
-            break;
-          case 4:
-            console.log("  BR:", selectedTile.neighbours[i].id + 1)
-            break;
-          case 5:
-            console.log("  BB:", selectedTile.neighbours[i].id + 1)
-            break;
-          default:
-            break;
-        }
-      }
-      break;
-    }
-  }
+  console.log("Selected tile  ", selectedTile.id + 1);
 }
