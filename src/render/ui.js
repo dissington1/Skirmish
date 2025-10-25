@@ -1,5 +1,11 @@
+function initUI() {
+  initTileGui();
+}
+
 function drawUI() {
   if (selectedTile) {
+    tileGui.pane.hidden = false;
+    updateTileGui(selectedTile);
     highlightTile(selectedTile);
   }
 }
@@ -15,7 +21,6 @@ function highlightTile(tile) {
   let w = 4 / cam.zoom;
   if (w < 4) w = 4;
   strokeWeight(w); // Scale highlight thickness with zoom
-
 
   // Render
   drawShape(hex);

@@ -30,10 +30,4 @@ function mouseClicked() {
       break;
     }
   }
-
-  if (selectedTile) {
-    console.log("Clicked tile:", selectedTile);
-  } else {
-    console.log("Clicked background");
-  }
 }

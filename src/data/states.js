@@ -1,3 +1,4 @@
+// Camera
 let cam = {
   x: 0,
   y: 0,
@@ -8,10 +9,12 @@ let cam = {
   maxZoom: 3
 };
 
+// Users
 let users = ["Player 1"];
 let user = 0; // Current player
 
+
+// Board
 let board = []; // Array of tiles
 let selectedTile = null;
-
 let landTiles = [];
