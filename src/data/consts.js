@@ -8,6 +8,21 @@ const TILE_COLOURS = [
   "#1E90FF"    // 4: Water
 ];
 
+const PLAYER_COLOURS = [
+  "#FF0000", // Red
+  "#0000FF", // Blue
+  "#00FF00", // Green
+  "#FFFF00", // Yellow
+  "#FF00FF", // Magenta
+  "#00FFFF", // Cyan
+  "#FFA500", // Orange
+  "#800080", // Purple
+  "#008000", // Dark Green
+  "#FFFFFF"  // White
+];
+
+
+
 const MAP_RADIUS = 25;
 
 const MAP_SIZE = 1000;

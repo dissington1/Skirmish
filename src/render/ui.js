@@ -12,8 +12,6 @@ function drawUI() {
 }
 
 function highlightTile(tile) {
-  let hex = generateHexagon(tile.x, tile.y, TILE_SIZE);
-
   push();
 
   // Style
@@ -21,10 +19,19 @@ function highlightTile(tile) {
   stroke(255, 200, 0);
   let w = 4 / cam.zoom;
   if (w < 4) w = 4;
-  strokeWeight(w); // Scale highlight thickness with zoom
+  strokeWeight(w);
 
-  // Render
-  drawShape(hex);
+  // Draw each wall if it exists
+  for (let wall of tile.walls) {
+    if (wall && wall.pos && wall.pos.a && wall.pos.b) {
+      line(
+        wall.pos.a.x,
+        wall.pos.a.y,
+        wall.pos.b.x,
+        wall.pos.b.y
+      );
+    }
+  }
 
   pop();
 }
