@@ -2,11 +2,11 @@
 let cam = {
   x: 0,
   y: 0,
-  zoom: 0.3,
+  zoom: 0.15,
   moveSpeed: 10,
-  zoomSpeed: 0.001,
-  minZoom: 0.3,
-  maxZoom: 3
+  zoomSpeed: 0.005,
+  minZoom: 0.15,
+  maxZoom: 2
 };
 
 // Users

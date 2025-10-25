@@ -8,6 +8,7 @@ function draw() {
   background(200);
 
   // Controls
+  zoomCamera();
   moveCamera();
 
   // Render

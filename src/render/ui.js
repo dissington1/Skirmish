@@ -1,11 +1,12 @@
 function initUI() {
-  inittileHud();
+  initTileHud();
+  tileHud.pane.hidden = true;
 }
 
 function drawUI() {
   if (selectedTile) {
     tileHud.pane.hidden = false;
-    updatetileHud(selectedTile);
+    updateTileHud(selectedTile);
     highlightTile(selectedTile);
   }
 }

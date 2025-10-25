@@ -1,11 +1,13 @@
 class Tile {
   constructor(x, y, type) {
+    this.id = 0;
     this.x = x;
     this.y = y;
     this.type = type; // Terrain type (0-grass, 1-forest, 2-sand, 3-mountain, 4-water)
     this.occupant = null;
     this.home = false;
-    this.walls = [0, 0, 0, 0, 0, 0];
+    this.walls = [null, null, null, null, null]; // TT, TL, TR, BL, BR, BB
+    this.neighbours = [null, null, null, null, null, null]; // TT, TL, TR, BL, BR, BB
 
     switch (this.type) {
       case 0: this.att = 2; this.def = 2; break; // Grass

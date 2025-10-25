@@ -2,22 +2,22 @@ let tileHud = {
     pane: null,
     folders: {
         general: null,
-        stats: null
+        stats: null,
+        neighbours: null
     },
     blades: {
         occupant: null,
         terrain: null,
         att: null,
-        def: null
+        def: null,
     }
 }
 
-function inittileHud() {
+function initTileHud() {
     tileHud.pane = new Tweakpane.Pane();
-
     // General
     tileHud.folders.general = tileHud.pane.addFolder({
-        title: 'General',
+        title: '',
         expanded: true,
     });
 
@@ -56,16 +56,17 @@ function inittileHud() {
     });
 }
 
-function updatetileHud(tile) {
+function updateTileHud(tile) {
     let occupant
     let terrain;
 
-    occupant = tile.occupant ? tile.occupant : "UNCLAIMED";
-
+    occupant = tile.occupant ? tile.occupant : null;
     terrain = getTerrainStr(tile.type);
 
+    tileHud.folders.general.title = `Tile ${tile.id + 1}`;
     tileHud.blades.occupant.value = occupant
     tileHud.blades.terrain.value = terrain;
+
     tileHud.blades.att.value = tile.att;
-    tileHud.blades.def.value = tile.def; 
+    tileHud.blades.def.value = tile.def;
 }
