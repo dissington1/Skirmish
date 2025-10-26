@@ -1,3 +1,8 @@
+function handleControls() {
+  moveCamera();
+  zoomCamera();
+}
+
 function moveCamera() {
   let speed = cam.moveSpeed / cam.zoom;
 
@@ -34,5 +39,10 @@ function mouseClicked() {
 
   selectedTile = findTileByWorldPos(worldX, worldY);
 
-  console.log("Selected tile  ", selectedTile.id + 1);
+  if (selectedTile) console.log("Selected tile   ", selectedTile.id + 1);
+
+  // selectedTile.neighbours.forEach((n, i) => {
+  //   const labels = ["TT", "TL", "TR", "BL", "BR", "BB"];
+  //   console.log(`${labels[i]} neighbour  `, n ? n.id + 1 : "None");
+  // });
 }

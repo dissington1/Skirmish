@@ -61,7 +61,7 @@ function updateTileHud(tile) {
     let terrain;
 
     occupant = tile.occupant ? tile.occupant : null;
-    terrain = getTerrainStr(tile.type);
+    terrain = getTerrainStr(tile.terrain);
 
     tileHud.folders.general.title = `Tile ${tile.id + 1}`;
     tileHud.blades.occupant.value = occupant

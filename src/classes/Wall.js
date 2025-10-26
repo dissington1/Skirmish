@@ -1,8 +1,8 @@
 class Wall {
-  constructor(tile, direction, pos) {
+  constructor(tile, direction, coords) {
       this.tile = tile;
       this.direction = direction;
-      this.pos = pos
+      this.coords = coords
       this.modifier = null;
   }
 }

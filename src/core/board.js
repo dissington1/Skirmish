@@ -7,10 +7,6 @@ const directions = [
   [0, +1] // BB
 ];
 
-// NEED TO RECONFIGURE TILE TO INCLUDE VERTICIES
-
-
-
 function generateHexGrid() {
   let grid = [];
 
@@ -32,7 +28,7 @@ function generateHexGrid() {
       // Third cube coordinate
       const s = -q - r;
 
-      // Calculates the world position of the current tile
+      // Calculates the world coordsition of the current tile
       const { x, y } = hexToWorldCoordinates(q, r);
 
       // Calculates the distance of the current tile from (0, 0, 0)
@@ -53,42 +49,49 @@ function generateHexGrid() {
     }
   }
   console.log("Map")
-  console.log("  Centrality        ", centrality);
-  console.log("  Shape Variance    ", shapeVariance);
-  console.log("  Terrain Variance  ", terrainVariance);
+  console.log("  Centrality");
+  console.log(" ", centrality)
+  console.log("  Shape variance");
+  console.log(" ", shapeVariance)
+  console.log("  Terrain variance");
+  console.log(" ", terrainVariance)
   console.log("");
 
   return grid;
 }
 
-
-function newBoard() {
+function generateBoard() {
   // Clear board
   board = [];
 
-  let tiles = generateHexGrid();
+  let grid = generateHexGrid();
 
   // Sort tiles by landScore, highest to lowest
-  tiles.sort((a, b) => b.landScore - a.landScore);
+  grid.sort((a, b) => b.landScore - a.landScore);
 
   // Assign terrain types
-  for (let i = 0; i < tiles.length; i++) {
-    let type;
+  for (let i = 0; i < grid.length; i++) {
+    let terrain;
 
-    // The top 1000 tiles become land (assuming MAP_SIZE is 1000)
+    // The top MAP_SIZE tiles become land
     if (i < MAP_SIZE) {
-      let terrainNoise = tiles[i].terrainNoise;
+      let terrainNoise = grid[i].terrainNoise;
 
-      if (terrainNoise < 0.40) type = 0;       // Grass
-      else if (terrainNoise < 0.60) type = 1;  // Forest
-      else if (terrainNoise < 0.80) type = 2;  // Sand
-      else if (terrainNoise <= 1) type = 3;    // Mountains
+      if (terrainNoise < 0.40) terrain = 0;       // Grass
+      else if (terrainNoise < 0.60) terrain = 1;  // Forest
+      else if (terrainNoise < 0.80) terrain = 2;  // Sand
+      else if (terrainNoise <= 1) terrain = 3;    // Mountains
     }
     else {
-      type = 4; // Water
+      terrain = 4; // Water
     }
 
-    board.push(new Tile(tiles[i].x, tiles[i].y, type));
+    let vertices = getTileVertices(grid[i]);
+
+    let newTile = new Tile(grid[i].x, grid[i].y, grid[i].q, grid[i].r, vertices, terrain);
+    
+    initWalls(newTile);
+    board.push(newTile);
   }
 
   board.sort((a, b) => {
@@ -100,42 +103,90 @@ function newBoard() {
     board[i].id = i;
   }
 
-  computeTileNeighbors(board, tiles);
+  tileMap = new Map(board.map(tile => [`${tile.q},${tile.r}`, tile]));
 
-  landTiles = board.filter(t => t.type !== 4);
-  let grassTiles = landTiles.filter(t => t.type == 0);
-  let forestTiles = landTiles.filter(t => t.type == 1);
-  let sandTiles = landTiles.filter(t => t.type == 2);
-  let mountainTiles = landTiles.filter(t => t.type == 3);
+  computeTileNeighbors(board);
 
+  landTiles = board.filter(t => t.terrain !== 4);
+  let grassTiles = landTiles.filter(t => t.terrain == 0);
+  let forestTiles = landTiles.filter(t => t.terrain == 1);
+  let sandTiles = landTiles.filter(t => t.terrain == 2);
+  let mountainTiles = landTiles.filter(t => t.terrain == 3);
 
   console.log("Tile count");
-  console.log("  Land      ", landTiles.length);
-  console.log("  Water     ", board.length - landTiles.length);
-  console.log("  Grass     ", grassTiles.length);
-  console.log("  Forest    ", forestTiles.length);
-  console.log("  Sand      ", sandTiles.length);
+  console.log("  Land  ", landTiles.length);
+  console.log("  Water  ", board.length - landTiles.length);
+  console.log("  Grass  ", grassTiles.length);
+  console.log("  Forest  ", forestTiles.length);
+  console.log("  Sand  ", sandTiles.length);
   console.log("  Mountain  ", mountainTiles.length);
   console.log("");
 }
 
-function computeTileNeighbors(board, tiles) {
+function computeTileNeighbors(board) {
   for (let tile of board) {
-    // Find original tileData from tiles array
-    const tileData = tiles.find(t => t.x === tile.x && t.y === tile.y);
-    if (!tileData) continue;
-
-    tile.neighbours = [null, null, null, null, null, null]; // reset
+    tile.neighbours = Array(6).fill(null); // reset
 
     directions.forEach(([dq, dr], i) => {
-      const nq = tileData.q + dq;
-      const nr = tileData.r + dr;
-
-      const neighborData = tiles.find(t => t.q === nq && t.r === nr);
-      if (neighborData) {
-        const neighborTile = board.find(t => t.x === neighborData.x && t.y === neighborData.y);
-        if (neighborTile) tile.neighbours[i] = neighborTile;
-      }
+      const key = `${tile.q + dq},${tile.r + dr}`;
+      tile.neighbours[i] = tileMap.get(key) || null;
     });
   }
+}
+
+function initWalls(tile) {
+  let v = tile.vertices
+
+  for (let i = 0; i < 6; i++) {
+    let direction;
+    let coords = { a: 0, b: 0 };
+
+    let a = i;
+    let b = a == 5 ? 0 : a + 1; // Loop around if at end
+
+    coords.a = v[a];
+    coords.b = v[b];
+
+    switch (a) {
+      case 0:
+        direction = 4; // BR
+        break;
+      case 1:
+        direction = 5; // BB
+        break;
+      case 2:
+        direction = 3; // BL
+        break;
+      case 3:
+        direction = 1; // TL
+        break;
+      case 4:
+        direction = 0; // TT
+        break;
+      case 5:
+        direction = 2; // TR
+        break;
+      default:
+        return;
+    }
+
+    tile.walls[direction] = new Wall(tile, direction, coords);
+  }
+}
+
+function getTileVertices(tile) {
+  let vertices = [];
+  let x = tile.x;
+  let y = tile.y;
+
+  for (let i = 0; i < 6; i++) {
+    let angle = TWO_PI / 6 * i;
+
+    vertices.push({
+      x: x + TILE_SIZE * cos(angle),
+      y: y + TILE_SIZE * sin(angle)
+    });
+  }
+
+  return vertices;
 }

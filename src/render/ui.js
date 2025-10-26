@@ -17,20 +17,16 @@ function highlightTile(tile) {
   // Style
   noFill();
   stroke(255, 200, 0);
-  let w = 4 / cam.zoom;
-  if (w < 4) w = 4;
-  strokeWeight(w);
+  strokeWeight(Math.max(4, 4 / cam.zoom));
 
   // Draw each wall if it exists
   for (let wall of tile.walls) {
-    if (wall && wall.pos && wall.pos.a && wall.pos.b) {
-      line(
-        wall.pos.a.x,
-        wall.pos.a.y,
-        wall.pos.b.x,
-        wall.pos.b.y
-      );
-    }
+    line(
+      wall.coords.a.x,
+      wall.coords.a.y,
+      wall.coords.b.x,
+      wall.coords.b.y
+    );
   }
 
   pop();
