@@ -1,6 +1,8 @@
 function handleControls() {
-  moveCamera();
-  zoomCamera();
+  if (scene != 0) {
+    moveCamera();
+    zoomCamera();
+  }
 }
 
 function moveCamera() {
@@ -23,10 +25,11 @@ function zoomCamera() {
 
 function mouseWheel(event) {
   // Multiplicative zoom factor
-  let factor = pow(2, -event.delta * cam.zoomSpeed);
-
-  cam.zoom *= factor;
-
+  
+  if (scene != 0) {
+    let factor = pow(2, -event.delta * cam.zoomSpeed);
+    cam.zoom *= factor;
+  }
   // Constrain zoom to min/max
   cam.zoom = constrain(cam.zoom, cam.minZoom, cam.maxZoom);
 
@@ -37,8 +40,7 @@ function mouseClicked() {
   let worldX = (mouseX - width / 2) / cam.zoom + cam.x;
   let worldY = (mouseY - height / 2) / cam.zoom + cam.y;
 
-  selectedTile = findTileByWorldPos(worldX, worldY);
-
+  if (scene != 0) selectedTile = findTileByWorldPos(worldX, worldY);
   if (selectedTile) console.log("Selected tile   ", selectedTile.id + 1);
 
   // selectedTile.neighbours.forEach((n, i) => {

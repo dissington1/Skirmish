@@ -1,8 +1,9 @@
-// 
+// Game State
+scene = 0; // 0-Create profile 1-Choose home 2-Playing
 
 // Users
-let users = [];
-let user = 0; // Current player
+let players = [];
+let player = null; // Current player
 
 // Board
 let board = [];
@@ -14,9 +15,15 @@ let landTiles = [];
 let cam = {
   x: 0,
   y: 0,
-  zoom: 0.15,
+  zoom: 0.5,
   moveSpeed: 10,
   zoomSpeed: 0.005,
   minZoom: 0.15,
   maxZoom: 2
 };
+
+// UI
+let playerNameInput;
+let playerNameInputValue;
+let playerNameInputError = "";
+let beginButton;

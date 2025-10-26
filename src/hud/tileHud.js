@@ -3,18 +3,21 @@ let tileHud = {
     folders: {
         general: null,
         stats: null,
-        neighbours: null
     },
     blades: {
         occupant: null,
         terrain: null,
         att: null,
         def: null,
+    },
+    buttons: {
+        settle: null,
     }
 }
 
 function initTileHud() {
     tileHud.pane = new Tweakpane.Pane();
+
     // General
     tileHud.folders.general = tileHud.pane.addFolder({
         title: '',
