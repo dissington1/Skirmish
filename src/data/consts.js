@@ -10,14 +10,11 @@ const TILE_COLOURS = [
 
 const PLAYER_COLOURS = [
   "#FF0000", // Red
-  "#0000FF", // Blue
   "#00FF00", // Green
   "#FFFF00", // Yellow
   "#FF00FF", // Magenta
   "#00FFFF", // Cyan
   "#FFA500", // Orange
-  "#800080", // Purple
-  "#008000", // Dark Green
   "#FFFFFF"  // White
 ];
 
