@@ -1,7 +1,18 @@
 function handleControls() {
+  adminControls();
+
   if (scene != 0) {
     moveCamera();
     zoomCamera();
+  }
+}
+
+function adminControls() {
+  if (keyIsDown(78) && scene == 2) { // N
+    player = null;
+    selectedTile = null;
+    scene = 0;
+    initMainMenu();
   }
 }
 
@@ -37,14 +48,22 @@ function mouseWheel(event) {
 }
 
 function mouseClicked() {
+  if (event.target !== canvas) return;
+  if (document.activeElement.tagName !== 'BODY') return;
+
   let worldX = (mouseX - width / 2) / cam.zoom + cam.x;
   let worldY = (mouseY - height / 2) / cam.zoom + cam.y;
 
   if (scene != 0) selectedTile = findTileByWorldPos(worldX, worldY);
-  if (selectedTile) console.log("Selected tile   ", selectedTile.id + 1);
-
-  // selectedTile.neighbours.forEach((n, i) => {
-  //   const labels = ["TT", "TL", "TR", "BL", "BR", "BB"];
-  //   console.log(`${labels[i]} neighbour  `, n ? n.id + 1 : "None");
-  // });
+  if (selectedTile) {
+    console.log("Selected tile", selectedTile.id + 1);
+    // if (selectedTile.neighbours && selectedTile.neighbours.length > 0) {
+    //   console.log("Neighbours:");
+    //   selectedTile.neighbours.forEach((n, i) => {
+    //     console.log(`  ${i}: Tile ID ${n.id + 1}`);
+    //   });
+    // } else {
+    //   console.log("This tile has no neighbours.");
+    // }
+  }
 }

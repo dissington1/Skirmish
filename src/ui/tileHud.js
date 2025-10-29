@@ -3,6 +3,7 @@ let tileHud = {
     folders: {
         general: null,
         stats: null,
+        buttons: null,
     },
     blades: {
         occupant: null,
@@ -57,13 +58,18 @@ function initTileHud() {
         parse: (v) => String(v),
         value: null,
     });
+
+    // Settle button
+    tileHud.buttons.settle = tileHud.pane.addButton({
+        title: 'Settle Tile',
+    });
 }
 
 function updateTileHud(tile) {
-    let occupant
+    let occupant;
     let terrain;
 
-    occupant = tile.occupant ? tile.occupant : null;
+    occupant = tile.occupant? tile.occupant.name : "Unclaimed";
     terrain = getTerrainStr(tile.terrain);
 
     tileHud.folders.general.title = `Tile ${tile.id + 1}`;
@@ -72,4 +78,14 @@ function updateTileHud(tile) {
 
     tileHud.blades.att.value = tile.att;
     tileHud.blades.def.value = tile.def;
+
+    if (tile.terrain == 4) tileHud.buttons.settle.disabled = true
+    else tileHud.buttons.settle.disabled = false
+
+    if (scene != 1) tileHud.buttons.settle.hidden = true
+    else tileHud.buttons.settle.hidden = false
+
+    tileHud.buttons.settle.on('click', () => {
+        if (tile == selectedTile) settleTile(tile);
+    });
 }

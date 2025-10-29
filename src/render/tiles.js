@@ -14,13 +14,13 @@ function drawTile(tile) {
 
   // Render
   drawShape(tile.vertices);
-  if (tile.home && tile.occupant == user) drawFlag(tile.x, tile.y, true);
+  if (tile.isHome) drawFlag(tile);
 
   pop();
 }
 
-function drawFlag(x, y, isHome) {
-  translate(x, y); // Tile center
+function drawFlag(tile) {
+  translate(tile.x, tile.y); // Tile center
 
   // Pole
   // Styles
@@ -28,17 +28,17 @@ function drawFlag(x, y, isHome) {
   fill(0);
 
   // Render
-  rect(-1, -TILE_SIZE * 0.25, 2, TILE_SIZE * 0.5);
+  rect(-12, -TILE_SIZE * 0.5, 6, TILE_SIZE);
 
   // Flag
   // Styles
-  isHome ? fill(255, 0, 0) : fill(0, 255, 255);
+  fill(tile.occupant.colour);
   noStroke();
 
   // Render
   triangle(
-    1, -TILE_SIZE * 0.25,
-    TILE_SIZE * 0.25, -TILE_SIZE * 0.15,
-    1, -TILE_SIZE * 0.05
+    -6, -TILE_SIZE * 0.5,
+    25, -10,
+    -6, TILE_SIZE * 0.5 - 20
   );
 }
