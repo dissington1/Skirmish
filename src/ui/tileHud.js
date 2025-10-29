@@ -63,6 +63,10 @@ function initTileHud() {
     tileHud.buttons.settle = tileHud.pane.addButton({
         title: 'Settle Tile',
     });
+
+    tileHud.buttons.settle.on('click', () => {
+        settleTile(selectedTile);
+    });
 }
 
 function updateTileHud(tile) {
@@ -84,8 +88,4 @@ function updateTileHud(tile) {
 
     if (scene != 1) tileHud.buttons.settle.hidden = true
     else tileHud.buttons.settle.hidden = false
-
-    tileHud.buttons.settle.on('click', () => {
-        if (tile == selectedTile) settleTile(tile);
-    });
 }
