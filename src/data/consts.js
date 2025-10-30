@@ -18,5 +18,5 @@ const PLAYER_COLOURS = [
   "#FFFFFF"  // White
 ];
 
-const MAP_RADIUS = 25;
-const MAP_SIZE = 1000;
+const MAP_RADIUS = 35;
+const MAP_SIZE = 2000;
