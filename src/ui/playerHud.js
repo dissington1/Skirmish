@@ -60,8 +60,9 @@ function initPlayerHud() {
     playerHud.buttons.myHome.on('click', () => {
         cam.x = player.tiles[0].x;
         cam.y = player.tiles[0].y;
-        cam.zoom = 1;
+        cam.zoom = 2;
         selectedTile = player.tiles[0];
+        selectedWall = player.tiles[0].walls[0];
     });
 
     playerHud.pane.hidden = true;
@@ -95,9 +96,9 @@ function updatePlayerHud() {
             playerHud.buttons.allHome[p.id].on('click', () => {
                 cam.x = p.tiles[0].x;
                 cam.y = p.tiles[0].y;
-                cam.zoom = 1;
+                cam.zoom = 2;
                 selectedTile = p.tiles[0];
-                console.log("Clicked");
+                selectedWall = p.tiles[0].walls[0];
             });
         }
     }

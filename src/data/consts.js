@@ -9,13 +9,10 @@ const TILE_COLOURS = [
 ];
 
 const PLAYER_COLOURS = [
-  "#FF0000", // Red
   "#00FF00", // Green
-  "#FFFF00", // Yellow
   "#FF00FF", // Magenta
   "#00FFFF", // Cyan
   "#FFA500", // Orange
-  "#FFFFFF"  // White
 ];
 
 const MAP_RADIUS = 35;

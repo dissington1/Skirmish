@@ -12,7 +12,8 @@ function drawUI() {
     if (tileHud.pane.hidden) tileHud.pane.hidden = false;
     updateTileHud(selectedTile);
     highlightTile(selectedTile);
-    highlightWall(selectedWall);
+    if (scene == 2) highlightWall(selectedWall);
+    
   }
   else {
     if (!tileHud.pane.hidden) tileHud.pane.hidden = true;
@@ -92,17 +93,21 @@ function highlightTile(tile) {
 function highlightWall(wall) {
   push();
 
+  // Calculate alpha:
+  // It's 0 when zoom is 1 or less.
+  // It fades from 0 to 150 as zoom goes from 1.0 to 1.5.
+  // It stays 150 when zoom is 1.5 or more.
+  const alpha = Math.max(0, Math.min(255, (cam.zoom - 0.25) * 300));
+
   // Style
   noFill();
-  stroke(255, 0, 0);
+  stroke(255, 0, 0, alpha); // Use the new alpha (and corrected to red)
   strokeWeight(Math.max(4, 4 / cam.zoom));
 
-  line(
-    wall.coords.a.x,
-    wall.coords.a.y,
-    wall.coords.b.x,
-    wall.coords.b.y
-  );
+  const { a, b } = wall.coords;
+
+  // Draw the line directly on the wall's coordinates
+  line(a.x, a.y, b.x, b.y);
 
   pop();
 }

@@ -91,6 +91,9 @@ function initTileHud() {
     tileHud.buttons.nextWall.on('click', () => {
         let dir = selectedWall.direction;
         selectedWall = dir == 5 ? selectedTile.walls[0] : selectedTile.walls[dir + 1];
+        cam.x = selectedTile.x
+        cam.y = selectedTile.y
+        cam.zoom = 2;
     });
 
     // Settle button
@@ -119,15 +122,18 @@ function updateTileHud(tile) {
     tileHud.blades.att.value = tile.att;
     tileHud.blades.def.value = tile.def;
 
-    if (tile.terrain == 4) tileHud.buttons.settle.disabled = true
-    else tileHud.buttons.settle.disabled = false
+    if (tile.terrain == 4) tileHud.buttons.settle.disabled = true;
+    else tileHud.buttons.settle.disabled = false;
 
-    if (scene != 2 || selectedTile.occupant != player) tileHud.buttons.upgrade.hidden = true
-    else tileHud.buttons.upgrade.hidden = false
+    if (scene != 2 || selectedTile.occupant != player) tileHud.buttons.upgrade.hidden = true;
+    else tileHud.buttons.upgrade.hidden = false;
 
-    if (selectedTile.level >= 5) tileHud.buttons.upgrade.disabled = true
-    else tileHud.buttons.upgrade.disabled = false
+    if (selectedTile.level >= 5) tileHud.buttons.upgrade.disabled = true;
+    else tileHud.buttons.upgrade.disabled = false;
     
-    if (scene != 1) tileHud.buttons.settle.hidden = true
-    else tileHud.buttons.settle.hidden = false
+    if (scene != 1) tileHud.buttons.settle.hidden = true;
+    else tileHud.buttons.settle.hidden = false;
+
+    if (scene != 2) tileHud.folders.walls.hidden = true;
+    else tileHud.folders.walls.hidden = false;
 }

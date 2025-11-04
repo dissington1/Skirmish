@@ -20,7 +20,7 @@ let cam = {
   zoom: 0.5,
   moveSpeed: 10,
   zoomSpeed: 0.005,
-  minZoom: 0.15,
+  minZoom: 0.25,
   maxZoom: 2
 };
 
