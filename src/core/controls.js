@@ -54,7 +54,10 @@ function mouseClicked() {
   let worldX = (mouseX - width / 2) / cam.zoom + cam.x;
   let worldY = (mouseY - height / 2) / cam.zoom + cam.y;
 
-  if (scene != 0) selectedTile = findTileByWorldPos(worldX, worldY);
+  if (scene != 0) {
+    selectedTile = findTileByWorldPos(worldX, worldY);
+    if (selectedTile) selectedWall = selectedTile.walls[0];
+  }
   if (selectedTile) {
     console.log("Selected tile", selectedTile.id + 1);
     // if (selectedTile.neighbours && selectedTile.neighbours.length > 0) {
@@ -65,5 +68,8 @@ function mouseClicked() {
     // } else {
     //   console.log("This tile has no neighbours.");
     // }
+  }
+  if (selectedWall) {
+    console.log("Selected wall", selectedWall.tile.id + 1, selectedWall.direction);
   }
 }

@@ -4,10 +4,12 @@ scene = 0; // 0-Create profile 1-Choose home 2-Playing
 // Users
 let players = [];
 let player = null; // Current player
+let playerCount = 0;
 
 // Board
 let board = [];
 let selectedTile = null;
+let selectedWall = null;
 let tileMap; // For axial coordinate lookups
 let landTiles = [];
 

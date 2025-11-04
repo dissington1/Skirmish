@@ -1,6 +1,7 @@
 function initUI() {
   initMainMenu();
   initTileHud();
+  initPlayerHud();
   tileHud.pane.hidden = true;
 }
 
@@ -8,19 +9,28 @@ function drawUI() {
   drawBorders();
 
   if (selectedTile) {
-    tileHud.pane.hidden = false;
+    if (tileHud.pane.hidden) tileHud.pane.hidden = false;
     updateTileHud(selectedTile);
     highlightTile(selectedTile);
+    highlightWall(selectedWall);
+  }
+  else {
+    if (!tileHud.pane.hidden) tileHud.pane.hidden = true;
   }
 
   switch (scene) {
     case 0: // Profile selection
+      selectedTile = null;
+      if (!playerHud.pane.hidden) playerHud.pane.hidden = true;
       mainMenu();
       break;
     case 1: // Home tile selection
+      if (!playerHud.pane.hidden) playerHud.pane.hidden = true;
       settleMenu();
       break;
     case 2:
+      if (playerHud.pane.hidden) playerHud.pane.hidden = false;
+      updatePlayerHud(player);
       break;
   }
 }
@@ -75,6 +85,24 @@ function highlightTile(tile) {
       wall.coords.b.y
     );
   }
+
+  pop();
+}
+
+function highlightWall(wall) {
+  push();
+
+  // Style
+  noFill();
+  stroke(255, 0, 0);
+  strokeWeight(Math.max(4, 4 / cam.zoom));
+
+  line(
+    wall.coords.a.x,
+    wall.coords.a.y,
+    wall.coords.b.x,
+    wall.coords.b.y
+  );
 
   pop();
 }

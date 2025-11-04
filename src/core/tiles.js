@@ -25,5 +25,12 @@ function settleTile(tile) {
 
   tile.occupant = player;
   tile.isHome = true;
+  tile.level = 2;
+  tile.updateStats();
   scene = 2;
+}
+
+function upgradeTile(tile) {
+  tile.level++;
+  tile.updateStats();
 }
