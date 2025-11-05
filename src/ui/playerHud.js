@@ -74,6 +74,8 @@ function updatePlayerHud() {
     playerHud.blades.myActions.value = player.actions;
     playerHud.folders.myPlayer.title = player.name;
 
+    playerHud.pane.title = "Players";
+
     for (let p of players) {
         if (!playerHud.folders.allPlayers[p.id]) {
             const folder = playerHud.tab.pages[1].addFolder({

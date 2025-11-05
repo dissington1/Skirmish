@@ -34,3 +34,7 @@ function upgradeTile(tile) {
   tile.level++;
   tile.updateStats();
 }
+
+function upgradeWall(wall) {
+
+}

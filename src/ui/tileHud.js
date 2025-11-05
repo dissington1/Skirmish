@@ -8,14 +8,19 @@ let tileHud = {
     blades: {
         occupant: null,
         terrain: null,
+        tileLevel: null,
         att: null,
         def: null,
         selectedWall: null,
+        modifier: null,
     },
     buttons: {
         settle: null,
         upgrade: null,
+        bridge: null,
         claim: null,
+        attModifier: null,
+        defModifier: null,
         nextWall: null,
     }
 }
@@ -49,6 +54,13 @@ function initTileHud() {
         expanded: true,
     });
 
+    tileHud.blades.tileLevel = tileHud.folders.level.addBlade({
+        view: 'text',
+        label: 'Level',
+        parse: (v) => String(v),
+        value: null,
+    });
+
     tileHud.blades.att = tileHud.folders.level.addBlade({
         view: 'text',
         label: 'Att',
@@ -71,6 +83,10 @@ function initTileHud() {
         upgradeTile(selectedTile);
     });
 
+    tileHud.buttons.bridge = tileHud.folders.level.addButton({
+        title: 'Build Bridge',
+    });
+
     // Walls
     tileHud.folders.walls = tileHud.pane.addFolder({
         title: 'Walls',
@@ -83,6 +99,22 @@ function initTileHud() {
         parse: (v) => String(v),
         value: null,
     });
+
+    tileHud.blades.modifier = tileHud.folders.walls.addBlade({
+        view: 'text',
+        label: 'Modifier',
+        parse: (v) => String(v),
+        value: null,
+    });
+    tileHud.buttons.attModifier = tileHud.folders.walls.addButton({
+        title: 'Add Attack Modifier',
+    });
+
+    tileHud.buttons.defModifier = tileHud.folders.walls.addButton({
+        title: 'Add Defence Modifier',
+    });
+
+    tileHud.folders.walls.addSeparator();
 
     tileHud.buttons.nextWall = tileHud.folders.walls.addButton({
         title: 'Next Wall',
@@ -113,20 +145,41 @@ function updateTileHud(tile) {
     occupant = tile.occupant ? tile.occupant.name : "Unclaimed";
     terrain = getTerrainStr(tile.terrain);
     
-    tileHud.folders.general.title = `Tile ${tile.id + 1}`;
-    tileHud.folders.level.title = tile.title;
+    tileHud.pane.title = `Tile ${tile.id + 1}`;
+
+    tileHud.folders.general.title = "Details";
+    tileHud.folders.level.title = "Development";
+    tileHud.blades.tileLevel.value = tile.title;
     tileHud.blades.occupant.value = occupant
     tileHud.blades.terrain.value = terrain;
     tileHud.blades.selectedWall.value = selectedWall.title;
+    tileHud.blades.modifier.value = selectedWall.modifierTitle;
 
     tileHud.blades.att.value = tile.att;
     tileHud.blades.def.value = tile.def;
 
+    tileHud.buttons.bridge.on('click', () => {
+        selectedTile.terrain = 5;
+    });
+
     if (tile.terrain == 4) tileHud.buttons.settle.disabled = true;
     else tileHud.buttons.settle.disabled = false;
 
-    if (scene != 2 || selectedTile.occupant != player) tileHud.buttons.upgrade.hidden = true;
-    else tileHud.buttons.upgrade.hidden = false;
+    if (scene != 2 || selectedTile.occupant != player) {
+        tileHud.buttons.bridge.hidden = true;
+        tileHud.buttons.upgrade.hidden = true;
+    }
+    else {
+        if (tile.terrain < 4) {
+            tileHud.buttons.upgrade.hidden = false;
+            tileHud.buttons.bridge.hidden = true;
+            
+        }
+        else {
+            tileHud.buttons.upgrade.hidden = true;
+            tileHud.buttons.bridge.hidden = false;
+        }
+    }
 
     if (selectedTile.level >= 5) tileHud.buttons.upgrade.disabled = true;
     else tileHud.buttons.upgrade.disabled = false;
@@ -136,4 +189,14 @@ function updateTileHud(tile) {
 
     if (scene != 2) tileHud.folders.walls.hidden = true;
     else tileHud.folders.walls.hidden = false;
+
+    if (tile.terrain == 4) {
+        tileHud.buttons.attModifier.hidden = true;
+        tileHud.buttons.defModifier.hidden = true;
+    }
+    else {
+        tileHud.buttons.attModifier.hidden = false;
+        tileHud.buttons.defModifier.hidden = false;
+    }
+    
 }

@@ -107,6 +107,12 @@ function generateBoard() {
 
   computeTileNeighbors(board);
 
+  for (const tile of board) {
+    for (const wall of tile.walls) {
+      wall.connectedTile = tile.neighbours[wall.direction] || null;
+    }
+  }
+
   landTiles = board.filter(t => t.terrain !== 4);
   let grassTiles = landTiles.filter(t => t.terrain == 0);
   let forestTiles = landTiles.filter(t => t.terrain == 1);

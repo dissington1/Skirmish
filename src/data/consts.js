@@ -5,7 +5,8 @@ const TILE_COLOURS = [
   "#006400",   // 1: Forest
   "#D2B48C",   // 2: Sand
   "#8B8989",   // 3: Mountain
-  "#1E90FF"    // 4: Water
+  "#1E90FF",   // 4: Water
+  "#A97458"    // 5: Wood
 ];
 
 const PLAYER_COLOURS = [

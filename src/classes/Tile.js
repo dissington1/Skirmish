@@ -14,7 +14,7 @@ class Tile {
     this.vertices = vertices;
 
     // Terrain type
-    this.terrain = terrain; // Terrain type (0-grass, 1-forest, 2-sand, 3-mountain, 4-water)
+    this.terrain = terrain; // Terrain type (0-grass, 1-forest, 2-sand, 3-mountain, 4-water, 5-bridge)
 
     // Occupying player
     this.occupant = null;
@@ -58,22 +58,28 @@ class Tile {
         this.def = this.level < 3 ? 3 * (this.level + 1) : 5 + (this.level * 2); // 3, 6, 9, 11, 13, 15
         break;
       }
+      case 5: { // Bridge
+        this.att == 0;
+        this.def == 0;
+      }
       default: this.att = 0; this.def = 0; // Water
     }
   }
 
   generateTitle(terrain, level) {
+    if (terrain == 5) return "Bridge";
+
     switch (level) {
-      case 1: return "Roads and Paths"
-      case 2: return "Budding Hamlet"
-      case 3: return "Burgeoning Village"
-      case 4: return "Bustling Town"
+      case 1: return "Paths & Roads";
+      case 2: return "Budding Hamlet";
+      case 3: return "Burgeoning Village";
+      case 4: return "Bustling Town";
       case 5:
         switch (terrain) {
-          case 0: return "Thriving City"
-          case 1: return "Verdant City"
-          case 2: return "Nomadic City"
-          case 3: return "Fortified City"
+          case 0: return "Thriving City";
+          case 1: return "Verdant City";
+          case 2: return "Nomadic City";
+          case 3: return "Fortified City";
           default: return "Uninhabited";
         }
       default: return "Uninhabited";
