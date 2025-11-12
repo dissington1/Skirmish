@@ -6,6 +6,7 @@ function settleTile(tile) {
     console.log(errorMessage);
     return;
   }
+  
   for (let neighbour of tile.neighbours) {
     if (neighbour && neighbour.occupant) {
       errorMessage = "Cannot settle next to an opponent's land";
@@ -30,11 +31,18 @@ function settleTile(tile) {
   scene = 2;
 }
 
+function claimTile(tile) {
+  tile.occupant = player;
+  tile.updateStats();
+  player.tiles.push(tile);
+}
+
 function upgradeTile(tile) {
   tile.level++;
   tile.updateStats();
 }
 
 function upgradeWall(wall) {
-
+  wall.modifier++;
+  wall.updateStats();
 }

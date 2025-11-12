@@ -1,7 +1,7 @@
 function handleControls() {
   adminControls();
 
-  if (scene != 0) {
+  if (scene != 0 && !skirmishing) {
     moveCamera();
     zoomCamera();
   }
@@ -37,7 +37,7 @@ function zoomCamera() {
 function mouseWheel(event) {
   // Multiplicative zoom factor
   
-  if (scene != 0) {
+  if (scene != 0 && !skirmishing) {
     let factor = pow(2, -event.delta * cam.zoomSpeed);
     cam.zoom *= factor;
   }
@@ -54,7 +54,7 @@ function mouseClicked() {
   let worldX = (mouseX - width / 2) / cam.zoom + cam.x;
   let worldY = (mouseY - height / 2) / cam.zoom + cam.y;
 
-  if (scene != 0) {
+  if (scene != 0 && !skirmishing) {
     selectedTile = findTileByWorldPos(worldX, worldY);
     if (selectedTile) selectedWall = selectedTile.walls[0];
   }

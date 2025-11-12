@@ -75,3 +75,71 @@ function drawShape(vertices) {
   vertices.forEach(v => vertex(v.x, v.y));
   endShape(CLOSE);
 }
+
+function isTileBordering(tile) {
+  for (n of tile.neighbours) {
+    if (n.occupant == player && n.terrain != 4) return true
+  }
+  return false;
+}
+
+function findAttackingTile(defTile) {
+  const attackingTiles = defTile.neighbours.filter(n => n.occupant == player);
+  if (attackingTiles.length == 0) return null;
+
+  let strongest = attackingTiles[0];
+  let highestTotal = getTotalAttack(attackingTiles[0], defTile);
+
+  for (let tile of attackingTiles) {
+    const totalAtt = getTotalAttack(tile, defTile);
+    if (totalAtt > highestTotal) {
+      strongest = tile;
+      highestTotal = totalAtt;
+    }
+  }
+
+  return strongest;
+}
+
+function getTotalAttack(attTile, defTile) {
+  const dir = getDirectionFrom(attTile, defTile);
+  if (dir == -1) return attTile.att;
+
+  // Wall that faces the defender
+  const wall = attTile.walls[dir];
+  const attBonus = wall ? wall.attBonus || 0 : 0;
+
+  return attTile.att + attBonus;
+}
+
+function getDirectionFrom(fromTile, toTile) {
+  let i = 0;
+
+  for (i; i < 6; i++) {
+    if (fromTile.neighbours[i] == toTile) return i;
+  }
+  
+  return -1;
+}
+
+function drawHashedOverlay(vertices, c) {
+  beginClip();
+  beginShape();
+  for (let v of vertices) vertex(v.x, v.y);
+  endShape(CLOSE);
+  endClip();
+
+  stroke(c);
+  strokeWeight(4);
+  noFill();
+  const xs = vertices.map(v => v.x);
+  const ys = vertices.map(v => v.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const spacing = 12;
+  for (let x = minX - (maxY - minY); x < maxX + (maxY - minY); x += spacing) {
+    line(x, minY, x + (maxY - minY), maxY);
+  }
+}

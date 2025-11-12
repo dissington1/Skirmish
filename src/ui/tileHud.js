@@ -16,12 +16,14 @@ let tileHud = {
     },
     buttons: {
         settle: null,
+        claim: null,
+        skirmish: null,
         upgrade: null,
         bridge: null,
-        claim: null,
         attModifier: null,
         defModifier: null,
         nextWall: null,
+        upgradeWall: null
     }
 }
 
@@ -83,10 +85,6 @@ function initTileHud() {
         upgradeTile(selectedTile);
     });
 
-    tileHud.buttons.bridge = tileHud.folders.level.addButton({
-        title: 'Build Bridge',
-    });
-
     // Walls
     tileHud.folders.walls = tileHud.pane.addFolder({
         title: 'Walls',
@@ -114,6 +112,14 @@ function initTileHud() {
         title: 'Add Defence Modifier',
     });
 
+    tileHud.buttons.upgradeWall = tileHud.folders.walls.addButton({
+        title: 'Upgrade Wall',
+    });
+
+    tileHud.buttons.upgradeWall.on('click', () => {
+        upgradeWall(selectedWall);
+    });
+
     tileHud.folders.walls.addSeparator();
 
     tileHud.buttons.nextWall = tileHud.folders.walls.addButton({
@@ -128,7 +134,7 @@ function initTileHud() {
         cam.zoom = 2;
     });
 
-    // Settle button
+    // Settle/claim/skirmish
     tileHud.buttons.settle = tileHud.pane.addButton({
         title: 'Settle Tile',
     });
@@ -136,67 +142,88 @@ function initTileHud() {
     tileHud.buttons.settle.on('click', () => {
         settleTile(selectedTile);
     });
+
+    tileHud.buttons.claim = tileHud.pane.addButton({
+        title: 'Claim Tile',
+    });
+
+    tileHud.buttons.claim.on('click', () => {
+        claimTile(selectedTile);
+    });
+
+    tileHud.buttons.skirmish = tileHud.pane.addButton({
+        title: 'Skirmish',
+    });
+
+    tileHud.buttons.skirmish.on('click', () => {
+        defendingTile = selectedTile;
+        skirmishing = true;
+    });
+
+    tileHud.buttons.bridge = tileHud.pane.addButton({
+        title: 'Build Bridge',
+    });
 }
 
 function updateTileHud(tile) {
-    let occupant;
-    let terrain;
+    const { buttons, blades, folders, pane } = tileHud;
 
-    occupant = tile.occupant ? tile.occupant.name : "Unclaimed";
-    terrain = getTerrainStr(tile.terrain);
-    
-    tileHud.pane.title = `Tile ${tile.id + 1}`;
+    const occupant = tile.occupant ? tile.occupant.name : "Unclaimed";
+    const terrain = getTerrainStr(tile.terrain);
 
-    tileHud.folders.general.title = "Details";
-    tileHud.folders.level.title = "Development";
-    tileHud.blades.tileLevel.value = tile.title;
-    tileHud.blades.occupant.value = occupant
-    tileHud.blades.terrain.value = terrain;
-    tileHud.blades.selectedWall.value = selectedWall.title;
-    tileHud.blades.modifier.value = selectedWall.modifierTitle;
+    pane.title = `Tile ${tile.id + 1}`;
+    folders.general.title = "Details";
+    folders.level.title = "Development";
 
-    tileHud.blades.att.value = tile.att;
-    tileHud.blades.def.value = tile.def;
+    blades.tileLevel.value = tile.title;
+    blades.occupant.value = occupant;
+    blades.terrain.value = terrain;
+    blades.selectedWall.value = selectedWall.title;
+    blades.modifier.value = selectedWall.modifierTitle;
+    blades.att.value = tile.att;
+    blades.def.value = tile.def;
 
-    tileHud.buttons.bridge.on('click', () => {
+    buttons.bridge.on('click', () => {
         selectedTile.terrain = 5;
+        selectedTile.updateStats();
     });
 
-    if (tile.terrain == 4) tileHud.buttons.settle.disabled = true;
-    else tileHud.buttons.settle.disabled = false;
+    buttons.attModifier.on('click', () => {
+        selectedWall.modifier = 4;
+        selectedWall.updateStats();
+    });
 
-    if (scene != 2 || selectedTile.occupant != player) {
-        tileHud.buttons.bridge.hidden = true;
-        tileHud.buttons.upgrade.hidden = true;
-    }
-    else {
-        if (tile.terrain < 4) {
-            tileHud.buttons.upgrade.hidden = false;
-            tileHud.buttons.bridge.hidden = true;
-            
-        }
-        else {
-            tileHud.buttons.upgrade.hidden = true;
-            tileHud.buttons.bridge.hidden = false;
-        }
-    }
+    buttons.defModifier.on('click', () => {
+        selectedWall.modifier = 1;
+        selectedWall.updateStats();
+    });
 
-    if (selectedTile.level >= 5) tileHud.buttons.upgrade.disabled = true;
-    else tileHud.buttons.upgrade.disabled = false;
+    // Info
+    const playerOwnsTile = scene == 2 && selectedTile.occupant == player;
+    const isWaterTile = tile.terrain == 4;
+    const isBridgeTile = tile.terrain == 5;
+    const isUnclaimed = tile.occupant == null;
+    const isBordering = isTileBordering(tile);
+
+    // Button Disabled Criteria
+    setDisabled(buttons.settle, isWaterTile);
+    setDisabled(buttons.claim, !isBordering);
+    setDisabled(buttons.upgrade, selectedTile.level >= 5);
+    setDisabled(buttons.upgrade, selectedTile.level >= 5);
+    setDisabled(buttons.upgradeWall, selectedWall.modifier == 3 || selectedWall.modifier == 6);
+    setDisabled(buttons.skirmish, !isBordering);
+    setDisabled(buttons.skirmish, selectedTile.isHome);
     
-    if (scene != 1) tileHud.buttons.settle.hidden = true;
-    else tileHud.buttons.settle.hidden = false;
+    // Button Hidden Criteria
+    setHidden(buttons.claim, scene != 2 || !isUnclaimed);
+    setHidden(buttons.upgrade, !playerOwnsTile || isWaterTile || isBridgeTile);
+    setHidden(buttons.skirmish, playerOwnsTile || tile.occupant == null);
+    setHidden(buttons.bridge, !playerOwnsTile || !isWaterTile || isBridgeTile);
+    setHidden(buttons.settle, scene !== 1);
+    setHidden(buttons.attModifier, !playerOwnsTile || isWaterTile || selectedWall.modifier > 0);
+    setHidden(buttons.defModifier, !playerOwnsTile || isWaterTile || selectedWall.modifier > 0);
+    setHidden(buttons.upgradeWall, !playerOwnsTile || isWaterTile || selectedWall.modifier == 0);
 
-    if (scene != 2) tileHud.folders.walls.hidden = true;
-    else tileHud.folders.walls.hidden = false;
-
-    if (tile.terrain == 4) {
-        tileHud.buttons.attModifier.hidden = true;
-        tileHud.buttons.defModifier.hidden = true;
-    }
-    else {
-        tileHud.buttons.attModifier.hidden = false;
-        tileHud.buttons.defModifier.hidden = false;
-    }
-    
+    // Folder Hidden Criteria
+    toggleFolder(folders.walls, scene !== 2 || isWaterTile || isUnclaimed);
 }

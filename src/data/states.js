@@ -29,3 +29,9 @@ let playerNameInput;
 let playerNameInputValue;
 let playerNameInputError = "";
 let beginButton;
+
+// Skirmish  Mode
+let skirmishing = false;
+let attackingTile = null;
+let attackingWall = null;
+let defendingTile = null;

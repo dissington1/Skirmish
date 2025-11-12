@@ -33,7 +33,7 @@ class Wall {
   }
 
   updateStats() {
-    this.modifierTitle = generateModifierTitle(this.modifier);
+    this.modifierTitle = this.generateModifierTitle(this.modifier);
 
     switch (this.modifier) {
       case 0: { // None

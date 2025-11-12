@@ -34,11 +34,16 @@ function drawUI() {
       updatePlayerHud(player);
       break;
   }
+
+  if (skirmishing && attackingTile) {
+    highlightTileAttacking(attackingTile);
+  }
 }
 
 function drawBorders() {
   for (let p of players) {
     for (let tile of p.tiles) {
+
       push();
 
       // Style
@@ -48,6 +53,7 @@ function drawBorders() {
       // Render
       for (let wall of tile.walls) {
         const neighbour = tile.neighbours[wall.direction];
+        
         if (!neighbour || neighbour.occupant != p) { // Checks if tile is an edge tile
           if (neighbour.occupant) {
             const c = color(p.colour);
@@ -75,6 +81,27 @@ function highlightTile(tile) {
   // Style
   noFill();
   stroke(255, 200, 0);
+  strokeWeight(Math.max(4, 4 / cam.zoom));
+
+  // Draw each wall if it exists
+  for (let wall of tile.walls) {
+    line(
+      wall.coords.a.x,
+      wall.coords.a.y,
+      wall.coords.b.x,
+      wall.coords.b.y
+    );
+  }
+
+  pop();
+}
+
+function highlightTileAttacking(tile) {
+  push();
+
+  // Style
+  noFill();
+  stroke(255, 0, 0);
   strokeWeight(Math.max(4, 4 / cam.zoom));
 
   // Draw each wall if it exists

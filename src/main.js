@@ -18,6 +18,8 @@ function draw() {
   drawCamera();
   drawBoard();
   drawUI();
+
+  if (skirmishing) skirmishHud();
 }
 
 function windowResized() {

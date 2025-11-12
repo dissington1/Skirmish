@@ -8,16 +8,24 @@ function drawBoard() {
 
 function drawTile(tile) {
   push();
-  // Styles
+  // Base tile color
   fill(TILE_COLOURS[tile.terrain]);
   stroke(4);
-
-  // Render
   drawShape(tile.vertices);
+
+  // Flag (optional)
   if (tile.isHome) drawFlag(tile);
+
+  // --- Overlays ---
+  if (skirmishing) {
+    if (tile === defendingTile) {
+      drawHashedOverlay(tile.vertices, color(255, 0, 0, 100)); // blue hash
+    }
+  }  
 
   pop();
 }
+
 
 function drawFlag(tile) {
   translate(tile.x, tile.y); // Tile center
