@@ -103,5 +103,8 @@ function updatePlayerHud() {
                 selectedWall = p.tiles[0].walls[0];
             });
         }
+        else {
+            playerHud.blades.allClaimed[p.id].value = p.tiles.length;
+        }
     }
 }

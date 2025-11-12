@@ -59,8 +59,9 @@ class Tile {
         break;
       }
       case 5: { // Bridge
-        this.att == 0;
-        this.def == 0;
+        this.att = 1;
+        this.def = 1;
+        break;
       }
       default: this.att = 0; this.def = 0; // Water
     }

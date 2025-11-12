@@ -83,6 +83,7 @@ function initTileHud() {
 
     tileHud.buttons.upgrade.on('click', () => {
         upgradeTile(selectedTile);
+        player.actions -= 2;
     });
 
     // Walls
@@ -117,6 +118,7 @@ function initTileHud() {
     });
 
     tileHud.buttons.upgradeWall.on('click', () => {
+        player.actions -= 1;
         upgradeWall(selectedWall);
     });
 
@@ -149,6 +151,7 @@ function initTileHud() {
 
     tileHud.buttons.claim.on('click', () => {
         claimTile(selectedTile);
+        player.actions -= 2;
     });
 
     tileHud.buttons.skirmish = tileHud.pane.addButton({
@@ -158,11 +161,16 @@ function initTileHud() {
     tileHud.buttons.skirmish.on('click', () => {
         defendingTile = selectedTile;
         skirmishing = true;
+        player.actions -= 5;
     });
 
     tileHud.buttons.bridge = tileHud.pane.addButton({
         title: 'Build Bridge',
     });
+
+    tileHud.buttons.bridge.on('click', () => { player.actions -= 1 });
+    tileHud.buttons.attModifier.on('click', () => { player.actions -= 1 });
+    tileHud.buttons.defModifier.on('click', () => { player.actions -= 1 });
 }
 
 function updateTileHud(tile) {
@@ -207,12 +215,13 @@ function updateTileHud(tile) {
 
     // Button Disabled Criteria
     setDisabled(buttons.settle, isWaterTile);
-    setDisabled(buttons.claim, !isBordering);
-    setDisabled(buttons.upgrade, selectedTile.level >= 5);
-    setDisabled(buttons.upgrade, selectedTile.level >= 5);
-    setDisabled(buttons.upgradeWall, selectedWall.modifier == 3 || selectedWall.modifier == 6);
-    setDisabled(buttons.skirmish, !isBordering);
-    setDisabled(buttons.skirmish, selectedTile.isHome);
+    setDisabled(buttons.claim, !isBordering || player.actions < 2);
+    setDisabled(buttons.upgrade, selectedTile.level >= 5 || player.actions < 2);
+    setDisabled(buttons.upgradeWall, selectedWall.modifier == 3 || selectedWall.modifier == 6 || player.actions < 1);
+    setDisabled(buttons.skirmish, !isBordering || selectedTile.isHome || player.actions < 5);
+    setDisabled(buttons.bridge, player.actions < 1);
+    setDisabled(buttons.attModifier, player.actions < 1);
+    setDisabled(buttons.defModifier, player.actions < 1);
     
     // Button Hidden Criteria
     setHidden(buttons.claim, scene != 2 || !isUnclaimed);
