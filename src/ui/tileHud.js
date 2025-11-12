@@ -11,6 +11,8 @@ let tileHud = {
         tileLevel: null,
         att: null,
         def: null,
+        attBonus: null,
+        defBonus: null,
         selectedWall: null,
         modifier: null,
     },
@@ -101,10 +103,25 @@ function initTileHud() {
 
     tileHud.blades.modifier = tileHud.folders.walls.addBlade({
         view: 'text',
-        label: 'Modifier',
+        label: 'Level',
         parse: (v) => String(v),
         value: null,
     });
+
+    tileHud.blades.attBonus = tileHud.folders.walls.addBlade({
+        view: 'text',
+        label: 'Att Bonus',
+        parse: (v) => String(v),
+        value: null,
+    });
+
+    tileHud.blades.defBonus = tileHud.folders.walls.addBlade({
+        view: 'text',
+        label: 'Def Bonus',
+        parse: (v) => String(v),
+        value: null,
+    });
+
     tileHud.buttons.attModifier = tileHud.folders.walls.addButton({
         title: 'Add Attack Modifier',
     });
@@ -187,6 +204,8 @@ function updateTileHud(tile) {
     blades.occupant.value = occupant;
     blades.terrain.value = terrain;
     blades.selectedWall.value = selectedWall.title;
+    blades.attBonus.value = selectedWall.attBonus;
+    blades.defBonus.value = selectedWall.defBonus;
     blades.modifier.value = selectedWall.modifierTitle;
     blades.att.value = tile.att;
     blades.def.value = tile.def;
@@ -213,6 +232,8 @@ function updateTileHud(tile) {
     const isUnclaimed = tile.occupant == null;
     const isBordering = isTileBordering(tile);
 
+    
+
     // Button Disabled Criteria
     setDisabled(buttons.settle, isWaterTile);
     setDisabled(buttons.claim, !isBordering || player.actions < 2);
@@ -232,6 +253,10 @@ function updateTileHud(tile) {
     setHidden(buttons.attModifier, !playerOwnsTile || isWaterTile || selectedWall.modifier > 0);
     setHidden(buttons.defModifier, !playerOwnsTile || isWaterTile || selectedWall.modifier > 0);
     setHidden(buttons.upgradeWall, !playerOwnsTile || isWaterTile || selectedWall.modifier == 0);
+    
+    // Blade Hidden Criteria
+    setHidden(blades.attBonus, selectedWall.attBonus == 0);
+    setHidden(blades.defBonus, selectedWall.defBonus == 0 && selectedWall.tile.occupant == player || selectedWall.attBonus != 0);
 
     // Folder Hidden Criteria
     toggleFolder(folders.walls, scene !== 2 || isWaterTile || isUnclaimed);
