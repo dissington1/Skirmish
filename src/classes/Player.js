@@ -4,6 +4,6 @@ class Player {
     this.name = name;
     this.colour = generateRandomPlayerColour();
     this.tiles = [];
-    this.actions = 10;
+    this.actions = 10000;
   }
 }

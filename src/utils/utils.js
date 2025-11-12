@@ -78,6 +78,7 @@ function drawShape(vertices) {
 
 function isTileBordering(tile) {
   for (n of tile.neighbours) {
+    if (!n) continue;
     if (n.occupant == player && n.terrain != 4) return true
   }
   return false;

@@ -45,6 +45,7 @@ function skirmishHud() {
 
     // --- 1. Initialize Skirmish Animation (Runs Once) ---
     if (skirmishRoll === null) {
+        randomSeed(null);
         skirmishRoll = random(1); // The one-time random roll
         skirmishAnimTimer = skirmishAnimTotalTime; // Start timer
         skirmishState = 'zipping';

@@ -54,7 +54,7 @@ function initPlayerHud() {
         value: null,
     });
 
-    playerHud.buttons.myHome = playerHud.folders.myPlayer.addButton({
+    playerHud.buttons.myHome = playerHud.tab.pages[0].addButton({
         title: 'Home Tile'
     });
     playerHud.buttons.myHome.on('click', () => {
@@ -63,6 +63,7 @@ function initPlayerHud() {
         cam.zoom = 2;
         selectedTile = player.tiles[0];
         selectedWall = player.tiles[0].walls[0];
+        buttonSFX.play();
     });
 
     playerHud.pane.hidden = true;
@@ -92,16 +93,6 @@ function updatePlayerHud() {
                 value: p.tiles.length
             });
             playerHud.blades.allClaimed[p.id] = blade;
-
-            // Home button
-            playerHud.buttons.allHome[p.id] = playerHud.folders.allPlayers[p.id].addButton({ title: 'Home Tile' });
-            playerHud.buttons.allHome[p.id].on('click', () => {
-                cam.x = p.tiles[0].x;
-                cam.y = p.tiles[0].y;
-                cam.zoom = 2;
-                selectedTile = p.tiles[0];
-                selectedWall = p.tiles[0].walls[0];
-            });
         }
         else {
             playerHud.blades.allClaimed[p.id].value = p.tiles.length;

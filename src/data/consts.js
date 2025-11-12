@@ -18,3 +18,14 @@ const PLAYER_COLOURS = [
 
 const MAP_RADIUS = 35;
 const MAP_SIZE = 2000;
+
+// Audio
+let mainMenuMusic;
+let settleMusic;
+let winterMusic;
+
+let townAmbienceSFX;
+let hammerSFX;
+let buttonSFX;
+let skirmishAmbienceSFX;
+let skirmishBeginSFX;

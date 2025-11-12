@@ -105,6 +105,7 @@ function initMainMenu() {
 
   // Click event
   beginButton.mousePressed(() => {
+    buttonSFX.play();
     if (playerNameInputValue.length == 0) {
       playerNameInputError = "Enter a username";
     }

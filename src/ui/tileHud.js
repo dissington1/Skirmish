@@ -80,11 +80,12 @@ function initTileHud() {
     });
 
     tileHud.buttons.upgrade = tileHud.folders.level.addButton({
-        title: 'Upgrade Tile',
+        title: 'Upgrade Tile (2)',
     });
 
     tileHud.buttons.upgrade.on('click', () => {
         upgradeTile(selectedTile);
+        hammerSFX.play();
         player.actions -= 2;
     });
 
@@ -123,20 +124,21 @@ function initTileHud() {
     });
 
     tileHud.buttons.attModifier = tileHud.folders.walls.addButton({
-        title: 'Add Attack Modifier',
+        title: 'Add Attack Modifier (1)',
     });
 
     tileHud.buttons.defModifier = tileHud.folders.walls.addButton({
-        title: 'Add Defence Modifier',
+        title: 'Add Defence Modifier (1)',
     });
 
     tileHud.buttons.upgradeWall = tileHud.folders.walls.addButton({
-        title: 'Upgrade Wall',
+        title: 'Upgrade Wall (1)',
     });
 
     tileHud.buttons.upgradeWall.on('click', () => {
         player.actions -= 1;
         upgradeWall(selectedWall);
+        hammerSFX.play();
     });
 
     tileHud.folders.walls.addSeparator();
@@ -151,6 +153,7 @@ function initTileHud() {
         cam.x = selectedTile.x
         cam.y = selectedTile.y
         cam.zoom = 2;
+        buttonSFX.play();
     });
 
     // Settle/claim/skirmish
@@ -160,34 +163,42 @@ function initTileHud() {
 
     tileHud.buttons.settle.on('click', () => {
         settleTile(selectedTile);
+        buttonSFX.play();
     });
 
     tileHud.buttons.claim = tileHud.pane.addButton({
-        title: 'Claim Tile',
+        title: 'Claim Tile (2)',
     });
 
     tileHud.buttons.claim.on('click', () => {
         claimTile(selectedTile);
         player.actions -= 2;
+        buttonSFX.play();
     });
 
     tileHud.buttons.skirmish = tileHud.pane.addButton({
-        title: 'Skirmish',
+        title: 'Skirmish (5)',
     });
 
     tileHud.buttons.skirmish.on('click', () => {
         defendingTile = selectedTile;
+
+        skirmishFinalArrowPos = 0;
+        skirmishResult = "";
+
         skirmishing = true;
         player.actions -= 5;
+
+        skirmishBeginSFX.play();
     });
 
     tileHud.buttons.bridge = tileHud.pane.addButton({
-        title: 'Build Bridge',
+        title: 'Build Bridge (1)',
     });
 
-    tileHud.buttons.bridge.on('click', () => { player.actions -= 1 });
-    tileHud.buttons.attModifier.on('click', () => { player.actions -= 1 });
-    tileHud.buttons.defModifier.on('click', () => { player.actions -= 1 });
+    tileHud.buttons.bridge.on('click', () => { player.actions -= 1; hammerSFX.play(); });
+    tileHud.buttons.attModifier.on('click', () => { player.actions -= 1; hammerSFX.play(); });
+    tileHud.buttons.defModifier.on('click', () => { player.actions -= 1; hammerSFX.play(); });
 }
 
 function updateTileHud(tile) {
@@ -218,6 +229,7 @@ function updateTileHud(tile) {
     buttons.attModifier.on('click', () => {
         selectedWall.modifier = 4;
         selectedWall.updateStats();
+        
     });
 
     buttons.defModifier.on('click', () => {

@@ -1,3 +1,15 @@
+function preload() {
+  mainMenuMusic = loadSound('src/audio/music/MainMenu.wav');
+  settleMusic = loadSound('src/audio/music/Settle.wav');
+  winterMusic = loadSound('src/audio/music/Winter.wav');
+
+  townAmbienceSFX = loadSound('src/audio/sfx/Ambience.wav');
+  hammerSFX = loadSound('src/audio/sfx/Hammer.wav');
+  buttonSFX = loadSound('src/audio/sfx/PressButton.wav');
+  skirmishAmbienceSFX = loadSound('src/audio/sfx/SkirmishAmbience.wav');
+  skirmishBeginSFX = loadSound('src/audio/sfx/SkirmishBegin.wav');;
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -6,6 +18,8 @@ function setup() {
 
   // Board
   generateBoard();
+
+  playMainMenuMusic();
 }
 
 function draw() {
@@ -18,6 +32,9 @@ function draw() {
   drawCamera();
   drawBoard();
   drawUI();
+
+  townAmbienceManager();
+  skirmishAmbienceManager();
 
   if (skirmishing) skirmishHud();
 }

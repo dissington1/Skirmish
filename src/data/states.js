@@ -35,3 +35,8 @@ let skirmishing = false;
 let attackingTile = null;
 let attackingWall = null;
 let defendingTile = null;
+
+// Audio
+
+let townAmbiencePlaying = false;
+let skirmishAmbiencePlaying = false;

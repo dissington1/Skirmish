@@ -69,6 +69,10 @@ function mouseClicked() {
     //   console.log("This tile has no neighbours.");
     // }
   }
+  else {
+    stopTownAmbience();
+  }
+
   if (selectedWall) {
     console.log("Selected wall", selectedWall.tile.id + 1, selectedWall.direction);
   }
